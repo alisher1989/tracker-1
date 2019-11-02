@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ user_obj.username }}
+{% endblock %}
+
+{% block menu %}
+    {% if user_obj == request.user %}
+    <li><a href="{% url 'accounts:user_update' user_obj.pk %}">Edit</a></li>
+    <li><a href="{% url 'accounts:user_change_password' user_obj.pk %}">Change password</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>Profile</h1>
+    {% if user_obj.profile.avatar %}
+        <img class="avatar" src="{{ user_obj.profile.avatar.url }}"
+             width="250" height="250" alt="user picture">
+    {% endif %}
+    <p>Username: <b>{{ user_obj.username }}</b></p>
+    <p>First name: <b>{{ user_obj.first_name }}</b></p>
+    <p>Last name: <b>{{ user_obj.last_name }}</b></p>
+    <p>Email: <b>{{ user_obj.email }}</b></p>
+    <p>About user: <b>{{ user_obj.profile.about_user }}</b></p>
+    <p>Link to Git profile: <b><a href="">{{ user_obj.profile.git_profile }}</a></b></p>
+{% endblock %}
