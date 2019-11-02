@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block menu %}
+    <li><a href="{% url 'webapp:status_add' %}">Add status</a></li>
+{% endblock %}
+{% block content %}
+    <h1 class="mt-3">Statuses</h1>
+    <div class="row">
+        {% for status in statuses %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-text card-link">
+                            {{ status }}
+                        </h2>
+                        <a href="{% url 'webapp:status_update' status.pk %}"><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'webapp:status_delete' status.pk %}"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
