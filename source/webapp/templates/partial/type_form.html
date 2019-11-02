@@ -1,0 +1,14 @@
+{% load  widget_tweaks %}
+{% csrf_token %}
+
+{% for error in form.not_field_errors %}
+<p class="form-error">{{ error }}</p>
+{% endfor %}
+
+<p><label for="{{ form.type.id_for_label }}">Type *</label></p>
+<p>{{ form.type|add_class:"form-control" }}</p>
+{% for error in form.type.errors %}
+    <p class="form-error">{{ errors }}</p>
+{% endfor %}
+
+<p class="text-center"><input type="submit" value="Confirm" class="btn btn-primary"></p>
