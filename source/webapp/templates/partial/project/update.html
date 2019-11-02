@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Update project{% endblock %}
+{% block menu %}
+    <li><a href="{% url 'webapp:projects_view' %}">Projects</a></li>
+{% endblock %}
+{% block content %}
+    <h1>Update Project</h1>
+    <form method="POST" action="{% url "webapp:project_update" project.pk %}">
+        {% include 'partial/project_form.html' with button_text="Update" %}
+    </form>
+{% endblock %}
