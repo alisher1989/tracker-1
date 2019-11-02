@@ -7,12 +7,36 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}MySite{% endblock %}</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block styles %}{% endblock %}
 </head>
 <body>
-{% block menu %}{% endblock %}
+    <nav class="navbar">
+        <div class="container">
+            <ul class="menu">
+                <li><a href="{% url 'webapp:index' %}">Home</a></li>
+                    <li><a href="{% url 'webapp:statuses_view' %}">Statuses</a></li>
+                    <li><a href="{% url 'webapp:types_view' %}">Types</a></li>
+                    <li><a href="{% url 'accounts:users_list' %}">Users</a></li>
+                    <li><a href="{% url 'webapp:projects_view' %}">Projects</a></li>
+                    <li><a href="{% url 'webapp:task_add' %}">Add task</a></li>
+                <li class="menu-right">
+                {% if request.user.is_authenticated %}
+                    <li>Hello,<a href="{% url 'accounts:user_detail' request.user.pk %}">
+                            {{ user }}!</a></li>
+                    <li><a href="{% url 'accounts:logout' %}">Log OUT</a></li>
+                {% else %}
+                    <li><a href="{% url 'accounts:login' %}">Log IN</a></li>
+                    <li><a href="{% url 'accounts:register' %}">Sign UP</a></li>
+                {% endif %}
+                {% block menu %}{% endblock %}
+                </li>
+            </ul>
+        </div>
+    </nav>
 <div class="container">
     {% block content %}{% endblock %}
 </div>
