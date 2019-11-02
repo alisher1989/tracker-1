@@ -1,0 +1,272 @@
+[
+{
+  "model": "webapp.project",
+  "pk": 1,
+  "fields": {
+    "name": "F.C. Arsenal",
+    "description": "English Football Club",
+    "created_at": "2019-11-02T22:27:00.677Z",
+    "updated_at": "2019-11-02T22:27:00.677Z",
+    "project_status": "active"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 2,
+  "fields": {
+    "name": "MU F.C.",
+    "description": "Red Devils",
+    "created_at": "2019-11-02T22:27:25.441Z",
+    "updated_at": "2019-11-02T22:27:25.441Z",
+    "project_status": "active"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 3,
+  "fields": {
+    "name": "Man City",
+    "description": "Blues",
+    "created_at": "2019-11-02T22:27:40.694Z",
+    "updated_at": "2019-11-02T22:27:40.694Z",
+    "project_status": "active"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 4,
+  "fields": {
+    "name": "Chelsea",
+    "description": "Aristocrats",
+    "created_at": "2019-11-02T22:28:34.221Z",
+    "updated_at": "2019-11-02T22:28:34.222Z",
+    "project_status": "active"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 5,
+  "fields": {
+    "name": "Liverpool",
+    "description": "Anfield",
+    "created_at": "2019-11-02T22:29:01.875Z",
+    "updated_at": "2019-11-02T22:29:01.875Z",
+    "project_status": "active"
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 1,
+  "fields": {
+    "summary": "Emirates Stadium",
+    "description": "North London",
+    "status": 3,
+    "type": 2,
+    "project": 1,
+    "created_at": "2019-11-02T22:30:12.126Z",
+    "updated_at": "2019-11-02T22:30:12.126Z"
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 2,
+  "fields": {
+    "summary": "Stamford Bridge stadium",
+    "description": "Pensionery",
+    "status": 2,
+    "type": 1,
+    "project": 4,
+    "created_at": "2019-11-02T22:31:13.898Z",
+    "updated_at": "2019-11-02T22:31:13.898Z"
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 3,
+  "fields": {
+    "summary": "Etihad Stadium",
+    "description": "Pep Gvardiola",
+    "status": 2,
+    "type": 2,
+    "project": 3,
+    "created_at": "2019-11-02T22:31:53.379Z",
+    "updated_at": "2019-11-02T22:31:53.379Z"
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 4,
+  "fields": {
+    "summary": "Old trafford",
+    "description": "Manchester is red, they say",
+    "status": 3,
+    "type": 1,
+    "project": 2,
+    "created_at": "2019-11-02T22:32:48.316Z",
+    "updated_at": "2019-11-02T22:32:48.316Z"
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 5,
+  "fields": {
+    "summary": "UEFA chempions",
+    "description": "5 time, Stambul final",
+    "status": 1,
+    "type": 2,
+    "project": 5,
+    "created_at": "2019-11-02T22:33:34.299Z",
+    "updated_at": "2019-11-02T22:33:34.299Z"
+  }
+},
+{
+  "model": "webapp.type",
+  "pk": 1,
+  "fields": {
+    "type": "defender"
+  }
+},
+{
+  "model": "webapp.type",
+  "pk": 2,
+  "fields": {
+    "type": "forward"
+  }
+},
+{
+  "model": "webapp.type",
+  "pk": 3,
+  "fields": {
+    "type": "winger"
+  }
+},
+{
+  "model": "webapp.status",
+  "pk": 1,
+  "fields": {
+    "status": "legend"
+  }
+},
+{
+  "model": "webapp.status",
+  "pk": 2,
+  "fields": {
+    "status": "coach"
+  }
+},
+{
+  "model": "webapp.status",
+  "pk": 3,
+  "fields": {
+    "status": "player"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$70amtSdVAH6h$AVPSEVp7KlH7m1ZTNvDUZ/clLSIJX/WXoEXrES/ptUE=",
+    "last_login": "2019-11-02T22:41:44.550Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-11-02T17:59:36.425Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$FZ21D4c4tMDy$fdYsHzCasJQfysQSuMsC9FrRRVWRHq8YORGjxfK/7AY=",
+    "last_login": "2019-11-02T22:36:52.667Z",
+    "is_superuser": false,
+    "username": "test",
+    "first_name": "Alisher",
+    "last_name": "Rashidovich",
+    "email": "test@test.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-11-02T22:36:26.753Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$Yc5NV0MG0wH5$mAvbP+MML/GHHTMnGYTpAruGk42otxWrgpsqwSPuJW8=",
+    "last_login": "2019-11-02T22:38:30.887Z",
+    "is_superuser": false,
+    "username": "test2",
+    "first_name": "Sadio",
+    "last_name": "Mane",
+    "email": "mane@test.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-11-02T22:38:11.134Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$MQ7yu4eiWq03$pa8wD14clWPzlJHWUBEB6+5Ug1k5BcuhdmHCFsfSHyU=",
+    "last_login": "2019-11-02T22:39:24.266Z",
+    "is_superuser": false,
+    "username": "test3",
+    "first_name": "Bob",
+    "last_name": "Firmino",
+    "email": "bob@test.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-11-02T22:39:05.791Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$MpzRxhyUDiEB$UZTGKsVhljkCQXCEybUJY6OyEnQoVE8+KFZ3hNSuBSU=",
+    "last_login": "2019-11-02T22:40:30.484Z",
+    "is_superuser": false,
+    "username": "test4",
+    "first_name": "Alex",
+    "last_name": "Lackazette",
+    "email": "lacka@test.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-11-02T22:40:08.684Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$kkqp8Ji3Pqiu$dTiB4qg8UiGfQDukSMOrloTigyBssX3B/gN57+p/5lw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "test5",
+    "first_name": "James",
+    "last_name": "Milner",
+    "email": "james@test.com",
+    "is_staff": false,
+    "is_active": false,
+    "date_joined": "2019-11-02T22:41:19.796Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
