@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Delete task{% endblock %}
+{% block content %}
+    <h1>Are you sure want to delete task "{{ task }}"?</h1>
+    <form method="POST" action="{% url "webapp:task_delete" task.pk %}" class="text-center" class="text-center">
+        {% csrf_token %}
+        <p><input type="submit" value="Confirm" class="btn btn-danger"></p>
+        <p><a href="{% url 'webapp:index' %}" class="btn btn-default">Cancel</a></p>
+    </form>
+{% endblock %}
