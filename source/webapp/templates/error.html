@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block menu %}
+    <li><a href="{% url 'webapp:statuses_view' %}">Statuses</a></li>
+{% endblock %}
+{% block title %}Delete status{% endblock %}
+{% block content %}
+    <h1>Cannot delete this status, because the status is attached to task</h1>
+{% endblock %}
