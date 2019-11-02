@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block menu %}
+    <li><a href="{% url 'webapp:project_update' project.pk %}">Edit</a></li>
+    <li><a href="{% url 'webapp:project_delete' project.pk %}">Delete</a></li>
+    <li><a href="{% url 'webapp:project_add' %}">Create</a></li>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ project.name }}</h1>
+    <div class="pre"><p><b>Description: </b>{{ project.description }}</p></div>
+    <p><b>Status: </b>{{ project.project_status }}</p>
+    <p><b>Created at: </b>{{ project.created_at|date:'d.m.Y H:i:s' }}</p>
+     <p><b>Updated at: </b> {{ project.updated_at|date:'d.m.Y H:i:s' }}</p>
+    <p>Projects users: </p>
+    {% for user in project.team.all %}
+        <h4>{{ user }}</h4>
+    {% endfor %}
+    <hr/>
+    <h3>Tasks</h3>
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+    <div class="task-list">
+        {% for task in project.projects_task.all %}
+            <hr>
+            <div class="task">
+                <p>{{ task.summary }} created at {{ task.created_at|date:'d.m.Y H:i:s' }}</p>
+                <div class="pre">{{ task.description }}</div>
+                <a href="{% url 'webapp:task_update' task.pk %}"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'webapp:task_delete' task.pk %}"><i class="fas fa-trash"></i></a>
+                <a href="{% url 'webapp:task_add' %}"><i class="fas fa-plus-square"></i></a>
+            </div>
+            <hr>
+        {% empty %}
+            <p>No tasks yet.</p>
+        {% endfor %}
+    </div>
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+{% endblock %}
