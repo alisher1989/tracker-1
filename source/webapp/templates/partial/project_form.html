@@ -1,0 +1,27 @@
+{% load  widget_tweaks %}
+{% csrf_token %}
+
+{% for error in form.not_field_errors %}
+<p class="form-error">{{ error }}</p>
+{% endfor %}
+
+<p><label for="{{ form.name.id_for_label }}">Name *</label></p>
+<p>{{ form.name|add_class:"form-control" }}</p>
+{% for error in form.name.errors %}
+    <p class="form-error">{{ errors }}</p>
+{% endfor %}
+
+<p><label for="{{ form.description.id_for_label }}">Description *</label></p>
+<p>{{ form.description|add_class:"form-control" }}</p>
+{% for error in form.description.errors %}
+    <p class="form-error">{{ errors }}</p>
+{% endfor %}
+
+<p><label for="{{ form.project_status.id_for_label }}">Status *</label></p>
+<p>{{ form.project_status|add_class:"form-control" }}</p>
+{% for error in form.project_status.errors %}
+    <p class="form-error">{{ errors }}</p>
+{% endfor %}
+
+
+<p class="text-center"><input type="submit" value="Confirm" class="btn btn-primary"></p>
