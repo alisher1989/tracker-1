@@ -50,6 +50,15 @@ class UserChangeForm(forms.ModelForm):
     about_user = forms.CharField(required=False, label='About user', widget=forms.Textarea)
     git_profile = forms.URLField()
 
+    def clean(self):
+        super().clean()
+        git_profile = self.cleaned_data.get('git_profile')
+        git_link = 'https://github.com/'
+        for i in git_profile:
+            if i in git_link:
+                raise ValidationError('no')
+            return self.cleaned_data
+
     def get_initial_for_field(self, field, field_name):
         if field_name in self.Meta.profile_fields:
             return getattr(self.instance.profile, field_name)

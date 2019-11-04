@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block menu %}
+    <li><a href="{% url 'accounts:users_list' %}">Users</a></li>
+{% endblock %}
+{% block title %}{% endblock %}
+{% block content %}
+    <h1>Cannot do anything to this task, because you are not the project user</h1>
+{% endblock %}
