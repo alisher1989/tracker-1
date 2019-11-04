@@ -58,6 +58,14 @@ class TaskCreateView(CreateView):
     form_class = TaskForm
     pk_kwargs_url = 'pk'
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class=None)
+        projects = []
+        users_project = Project.objects.filter(team__user_key=self.request.user.pk, team__ended_at=None)
+        print(projects)
+        form.fields['project'].queryset = users_project
+        return form
+
     def test_func(self):
         pk = self.kwargs.get(self.pk_kwargs_url)
         project = get_object_or_404(Project, pk=pk)
@@ -65,6 +73,7 @@ class TaskCreateView(CreateView):
             if self.request.user != team.user_key:
                 return self.request.user == team.user_key
             return redirect('user_error.html')
+
 
 class TaskUpdateView(UserPassesTestMixin, UpdateView):
     model = Task

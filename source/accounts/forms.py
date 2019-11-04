@@ -54,10 +54,9 @@ class UserChangeForm(forms.ModelForm):
         super().clean()
         git_profile = self.cleaned_data.get('git_profile')
         git_link = 'https://github.com/'
-        for i in git_profile:
-            if i in git_link:
-                raise ValidationError('no')
-            return self.cleaned_data
+        if git_profile.find(git_link, 0, 19):
+            raise ValidationError('The link should be to Git profile')
+        return self.cleaned_data
 
     def get_initial_for_field(self, field, field_name):
         if field_name in self.Meta.profile_fields:
