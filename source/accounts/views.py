@@ -139,6 +139,7 @@ def password_reset_email_view(request):
         email = request.POST.get('email')
         users = User.objects.filter(email=email)
         if len(users) > 0:
+            print('yes')
             user = users[0]
             send_token(user,
                        'Вы запросили восстановление пароля на сайте localhost:8000.',
@@ -164,6 +165,7 @@ class PasswordResetFormView(UpdateView):
 
     def form_valid(self, form):
         token = self.get_token()
+        print(token)
         token.delete()
         return super().form_valid(form)
 
