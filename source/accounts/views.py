@@ -8,8 +8,17 @@ from django.urls import reverse
 from main.settings import HOST_NAME
 from django.views.generic import UpdateView, DetailView, ListView
 
-from accounts.forms import SignUpForm, UserChangeForm, UserChangePasswordForm
+from accounts.forms import SignUpForm, UserChangeForm, UserChangePasswordForm, UserPasswordResetForm
 from accounts.models import Token, Profile
+
+def send_token(user, subject, message, redirect_url):
+    token = Token.objects.create(user=user)
+    url = HOST_NAME + reverse(redirect_url, kwargs={'token': token})
+    print(url)
+    try:
+        user.email_user(subject, message.format(url=url))
+    except ConnectionRefusedError:
+        print('Could not send email. Server error.')
 
 
 def login_view(request):
@@ -121,5 +130,48 @@ class UsersListView(ListView):
     model = User
     paginate_by = 4
     paginate_orphans = 1
+
+
+def password_reset_email_view(request):
+    if request.method == 'GET':
+        return render(request, 'password_reset_email.html')
+    elif request.method == 'POST':
+        email = request.POST.get('email')
+        users = User.objects.filter(email=email)
+        if len(users) > 0:
+            user = users[0]
+            send_token(user,
+                       'Вы запросили восстановление пароля на сайте localhost:8000.',
+                       'Для ввода нового пароля перейдите по ссылке: {url}',
+                       redirect_url='accounts:password_reset_form')
+        return render(request, 'password_reset_confirm.html')
+
+
+class PasswordResetFormView(UpdateView):
+    model = User
+    template_name = 'password_reset_form.html'
+    form_class = UserPasswordResetForm
+    context_object_name = 'user_obj'
+
+    def get_object(self, queryset=None):
+        token = self.get_token()
+        return token.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['token'] = self.kwargs.get('token')
+        return context
+
+    def form_valid(self, form):
+        token = self.get_token()
+        token.delete()
+        return super().form_valid(form)
+
+    def get_token(self):
+        token_value = self.kwargs.get('token')
+        return get_object_or_404(Token, token=token_value)
+
+    def get_success_url(self):
+        return reverse('accounts:login')
 
 

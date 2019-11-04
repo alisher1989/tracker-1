@@ -112,3 +112,29 @@ class UserChangePasswordForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['password', 'password_confirm']
+
+
+class UserPasswordResetForm(forms.ModelForm):
+    password = forms.CharField(max_length=100, required=True, label='New Password',
+                               widget=forms.PasswordInput)
+    password_confirm = forms.CharField(max_length=100, required=True, label='New Password confirm',
+                                       widget=forms.PasswordInput)
+
+    def clean(self):
+        super().clean()
+        password_1 = self.cleaned_data.get('password')
+        password_2 = self.cleaned_data.get('password_confirm')
+        if password_1 != password_2:
+            raise ValidationError('Passwords do not match.', code='passwords_do_not_match')
+        return self.cleaned_data
+
+    def save(self, commit=True):
+        user = self.instance
+        user.set_password(self.cleaned_data.get('password'))
+        if commit:
+            user.save()
+        return user
+
+    class Meta:
+        model = User
+        fields = []
