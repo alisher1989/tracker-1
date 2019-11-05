@@ -11,6 +11,7 @@ from django.views.generic import UpdateView, DetailView, ListView
 from accounts.forms import SignUpForm, UserChangeForm, UserChangePasswordForm, UserPasswordResetForm
 from accounts.models import Token, Profile
 
+
 def send_token(user, subject, message, redirect_url):
     token = Token.objects.create(user=user)
     url = HOST_NAME + reverse(redirect_url, kwargs={'token': token})

@@ -7,11 +7,13 @@
 {% endblock %}
 {% block content %}
     <h1>{{ task.summary }}</h1>
+        <p><b>Created by: </b>{{ task.created_by }}</p>
         <p><b>Description: </b>{{ task.description }}</p>
         <p><b>Status: </b>{{ task.status }}</p>
         <p><b>Type: </b>{{ task.type }}</p>
         <p><b>Created at: </b>{{ task.created_at }}</p>
         <p><b>Project: </b>{{ task.project }}</p>
+        <p><b>Assigned to: </b>{{ task.assigned_to }}</p>
         <p>
             <a href="{% url 'webapp:index' %}" class="btn btn-default">Home</a>
         </p>

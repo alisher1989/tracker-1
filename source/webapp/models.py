@@ -1,8 +1,13 @@
+from django.contrib.auth.models import User
 from django.db import models
 PROJECT_STATUS = (
     ('active', 'active'),
     ('blocked', 'blocked'),
 )
+
+
+def get_admin():
+    return User.objects.get(username='admin').id
 
 
 class Project(models.Model):
@@ -24,6 +29,10 @@ class Task(models.Model):
     project = models.ForeignKey('webapp.Project', related_name='projects_task', on_delete=models.PROTECT, null=True, blank=False, verbose_name='проект')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='создано')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
+    created_by = models.ForeignKey(User, max_length=40, null=True, blank=True, on_delete=models.PROTECT,
+                               default=get_admin, verbose_name='Author', related_name='task_creator')
+    assigned_to = models.ForeignKey(User, max_length=40, null=True, blank=True, on_delete=models.PROTECT,
+                               default=get_admin, verbose_name='Assigned to', related_name='task_executor')
 
     def __str__(self):
         return self.summary

@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
@@ -58,6 +59,12 @@ class TaskCreateView(CreateView):
     form_class = TaskForm
     pk_kwargs_url = 'pk'
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
     def get_form(self, form_class=None):
         form = super().get_form(form_class=None)
         users_project = Project.objects.filter(team__user_key=self.request.user.pk, team__ended_at=None)
@@ -71,6 +78,9 @@ class TaskCreateView(CreateView):
             if self.request.user != team.user_key:
                 return self.request.user == team.user_key
             return redirect('user_error.html')
+
+    def get_success_url(self):
+        return reverse('webapp:task_view', kwargs={'pk': self.object.pk})
 
 
 class TaskUpdateView(UserPassesTestMixin, UpdateView):
@@ -100,13 +110,14 @@ class TaskDeleteView(UserPassesTestMixin, DeleteView):
     pk_kwargs_url = 'pk'
 
     def test_func(self):
+        task = self.get_object()
         pk = self.kwargs.get(self.pk_kwargs_url)
         project = get_object_or_404(Project, pk=pk)
         for team in project.team.all():
             if self.request.user != team.user_key:
-                return self.request.user == team.user_key
+                return self.request.user == team.user_key or \
+                       task.created_by or self.request.user.is_superuser
             return redirect('user_error.html')
-
 
     # def dispatch(self, request, *args, **kwargs):
     #     pk = self.kwargs.get(self.pk_kwargs_url)
@@ -138,7 +149,6 @@ class TaskDeleteView(UserPassesTestMixin, DeleteView):
     #     project = get_object_or_404(Project, pk=pk)
     #     for user in project.team.all():
     #         print(user)
-
 
     # def get(self, request, *args, **kwargs):
     #     task = self.get_object()

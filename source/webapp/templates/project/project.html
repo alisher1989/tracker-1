@@ -18,7 +18,7 @@
         <h4>{{ user }}</h4>
     {% endfor %}
     <hr/>
-    <h3>Tasks</h3>
+    <h3>Projects tasks</h3>
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
@@ -26,7 +26,7 @@
         {% for task in project.projects_task.all %}
             <hr>
             <div class="task">
-                <p>{{ task.summary }} created at {{ task.created_at|date:'d.m.Y H:i:s' }}</p>
+                <p>{{ task.summary }} created at {{ task.created_at|date:'d.m.Y H:i:s' }}, created_by <b>{{ task.created_by }}</b></p>
                 <div class="pre">{{ task.description }}</div>
                 <a href="{% url 'webapp:task_update' task.pk %}"><i class="fas fa-edit"></i></a>
                 <a href="{% url 'webapp:task_delete' task.pk %}"><i class="fas fa-trash"></i></a>
