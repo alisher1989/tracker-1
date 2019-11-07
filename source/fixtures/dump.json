@@ -55,71 +55,6 @@
   }
 },
 {
-  "model": "webapp.task",
-  "pk": 1,
-  "fields": {
-    "summary": "Emirates Stadium",
-    "description": "North London",
-    "status": 3,
-    "type": 2,
-    "project": 1,
-    "created_at": "2019-11-02T22:30:12.126Z",
-    "updated_at": "2019-11-02T22:30:12.126Z"
-  }
-},
-{
-  "model": "webapp.task",
-  "pk": 2,
-  "fields": {
-    "summary": "Stamford Bridge stadium",
-    "description": "Pensionery",
-    "status": 2,
-    "type": 1,
-    "project": 4,
-    "created_at": "2019-11-02T22:31:13.898Z",
-    "updated_at": "2019-11-02T22:31:13.898Z"
-  }
-},
-{
-  "model": "webapp.task",
-  "pk": 3,
-  "fields": {
-    "summary": "Etihad Stadium",
-    "description": "Pep Gvardiola",
-    "status": 2,
-    "type": 2,
-    "project": 3,
-    "created_at": "2019-11-02T22:31:53.379Z",
-    "updated_at": "2019-11-02T22:31:53.379Z"
-  }
-},
-{
-  "model": "webapp.task",
-  "pk": 4,
-  "fields": {
-    "summary": "Old trafford",
-    "description": "Manchester is red, they say",
-    "status": 3,
-    "type": 1,
-    "project": 2,
-    "created_at": "2019-11-02T22:32:48.316Z",
-    "updated_at": "2019-11-02T22:32:48.316Z"
-  }
-},
-{
-  "model": "webapp.task",
-  "pk": 5,
-  "fields": {
-    "summary": "UEFA chempions",
-    "description": "5 time, Stambul final",
-    "status": 1,
-    "type": 2,
-    "project": 5,
-    "created_at": "2019-11-02T22:33:34.299Z",
-    "updated_at": "2019-11-02T22:33:34.299Z"
-  }
-},
-{
   "model": "webapp.type",
   "pk": 1,
   "fields": {
@@ -166,7 +101,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$70amtSdVAH6h$AVPSEVp7KlH7m1ZTNvDUZ/clLSIJX/WXoEXrES/ptUE=",
-    "last_login": "2019-11-04T14:47:28.336Z",
+    "last_login": "2019-11-07T13:13:45.721Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Alisher",
@@ -184,7 +119,7 @@
   "pk": 2,
   "fields": {
     "password": "pbkdf2_sha256$150000$A5VYghA7zJOZ$3jb66MFSRJ7Ji3D3yuLB8CqA5F3qQXtywo89eXG2aUY=",
-    "last_login": "2019-11-04T14:42:54.546Z",
+    "last_login": "2019-11-07T13:04:19.672Z",
     "is_superuser": false,
     "username": "test",
     "first_name": "Thierry",
@@ -220,7 +155,7 @@
   "pk": 4,
   "fields": {
     "password": "pbkdf2_sha256$150000$MQ7yu4eiWq03$pa8wD14clWPzlJHWUBEB6+5Ug1k5BcuhdmHCFsfSHyU=",
-    "last_login": "2019-11-04T14:48:25.094Z",
+    "last_login": "2019-11-07T13:14:38.904Z",
     "is_superuser": false,
     "username": "test3",
     "first_name": "Bob",
@@ -267,6 +202,194 @@
     "date_joined": "2019-11-02T22:41:19.796Z",
     "groups": [],
     "user_permissions": []
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 1,
+  "fields": {
+    "summary": "Emirates Stadium",
+    "description": "North London",
+    "status": 3,
+    "type": 2,
+    "project": 1,
+    "created_at": "2019-11-02T22:30:12.126Z",
+    "updated_at": "2019-11-05T16:19:12.320Z",
+    "created_by": [
+      "test3"
+    ],
+    "assigned_to": [
+      "test3"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 2,
+  "fields": {
+    "summary": "Stamford Bridge stadium",
+    "description": "Pensionery",
+    "status": 2,
+    "type": 1,
+    "project": 4,
+    "created_at": "2019-11-02T22:31:13.898Z",
+    "updated_at": "2019-11-05T16:18:57.711Z",
+    "created_by": [
+      "test2"
+    ],
+    "assigned_to": [
+      "test2"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 3,
+  "fields": {
+    "summary": "Etihad Stadium",
+    "description": "Pep Gvardiola",
+    "status": 2,
+    "type": 2,
+    "project": 3,
+    "created_at": "2019-11-02T22:31:53.379Z",
+    "updated_at": "2019-11-02T22:31:53.379Z",
+    "created_by": [
+      "admin"
+    ],
+    "assigned_to": [
+      "admin"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 4,
+  "fields": {
+    "summary": "Old trafford",
+    "description": "Manchester is red, they say",
+    "status": 3,
+    "type": 1,
+    "project": 2,
+    "created_at": "2019-11-02T22:32:48.316Z",
+    "updated_at": "2019-11-05T16:18:29.681Z",
+    "created_by": [
+      "test3"
+    ],
+    "assigned_to": [
+      "test3"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 6,
+  "fields": {
+    "summary": "Buying Player",
+    "description": "Player has to center forward , We'll buy in january transfer window",
+    "status": null,
+    "type": 2,
+    "project": 4,
+    "created_at": "2019-11-05T13:21:03.491Z",
+    "updated_at": "2019-11-05T13:21:03.491Z",
+    "created_by": [
+      "test"
+    ],
+    "assigned_to": [
+      "admin"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 17,
+  "fields": {
+    "summary": "Football",
+    "description": "testing one",
+    "status": 1,
+    "type": 1,
+    "project": null,
+    "created_at": "2019-11-06T12:40:28.928Z",
+    "updated_at": "2019-11-06T12:40:28.928Z",
+    "created_by": [
+      "admin"
+    ],
+    "assigned_to": [
+      "test2"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 43,
+  "fields": {
+    "summary": "Muhammad Salah",
+    "description": "Right Winger, Egiptian",
+    "status": 3,
+    "type": 3,
+    "project": 5,
+    "created_at": "2019-11-07T13:08:31.429Z",
+    "updated_at": "2019-11-07T13:08:31.429Z",
+    "created_by": [
+      "test"
+    ],
+    "assigned_to": [
+      "test3"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 44,
+  "fields": {
+    "summary": "Sergio Aquero",
+    "description": "Top Forward",
+    "status": 3,
+    "type": 2,
+    "project": 3,
+    "created_at": "2019-11-07T13:11:44.529Z",
+    "updated_at": "2019-11-07T13:11:44.529Z",
+    "created_by": [
+      "test3"
+    ],
+    "assigned_to": null
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 45,
+  "fields": {
+    "summary": "cfdsfd",
+    "description": "dsfdssd",
+    "status": 1,
+    "type": 1,
+    "project": 3,
+    "created_at": "2019-11-07T13:21:17.638Z",
+    "updated_at": "2019-11-07T13:21:17.638Z",
+    "created_by": [
+      "test3"
+    ],
+    "assigned_to": [
+      "test3"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 46,
+  "fields": {
+    "summary": "Etihad Stadium",
+    "description": "test",
+    "status": 1,
+    "type": 1,
+    "project": 4,
+    "created_at": "2019-11-07T13:28:32.079Z",
+    "updated_at": "2019-11-07T13:28:32.079Z",
+    "created_by": [
+      "test3"
+    ],
+    "assigned_to": [
+      "test"
+    ]
   }
 }
 ]

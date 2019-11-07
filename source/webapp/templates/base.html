@@ -21,7 +21,6 @@ integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4
                     <li><a href="{% url 'webapp:statuses_view' %}">Statuses</a></li>
                     <li><a href="{% url 'webapp:types_view' %}">Types</a></li>
                     <li><a href="{% url 'accounts:users_list' %}">Users</a></li>
-                    <li><a href="{% url 'webapp:projects_view' %}">Projects</a></li>
                 <li class="menu-right">
                     {% if request.user.is_authenticated %}
                         <li>Hello,<a href="{% url 'accounts:user_detail' request.user.pk %}">

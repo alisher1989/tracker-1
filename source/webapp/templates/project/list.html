@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block menu %}
     <li><a href="{% url 'webapp:project_add' %}">Add project</a></li>
-    <li><a href="{% url 'webapp:index' %}">Tasks</a></li>
 {% endblock %}
 {% block content %}
     <h1 class="mt-3">Projects</h1>
@@ -19,8 +18,8 @@
                         <a href="{% url 'webapp:project_view' project.pk %}"><h2 class="card-text card-link">
                             {{ project.name }}
                         </h2></a>
-                        <a href="{% url 'webapp:project_update' project.pk %}"><i class="fas fa-edit"></i></a>
-                        <a href="{% url 'webapp:project_delete' project.pk %}"><i class="fas fa-trash"></i></a>
+                            <a href="{% url 'webapp:project_update' project.pk %}"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'webapp:project_delete' project.pk %}"><i class="fas fa-trash"></i></a>
                         <p class="card-text">{{ project.get_category_display }}</p>
                         <p class="card-text text-right"><b>Description: </b>{{ project.description }}</p>
                     </div>

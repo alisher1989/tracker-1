@@ -27,21 +27,20 @@ class TaskForm(forms.ModelForm):
         users = []
         for team in teams:
             users.append(team)
-        print(teams)
         self.fields['assigned_to'].queryset = User.objects.filter(
             username__in=users
         )
 
-    def clean_assigned_to(self):
-        super().clean()
-        assigned_to = self.cleaned_data.get('assigned_to')
-        project = self.cleaned_data.get('project')
-        print(project)
-        try:
-            User.objects.get(username=assigned_to)
-            return assigned_to
-        except User.DoesNotExist:
-            raise ValidationError('Пользователь не существует!')
+    # def clean_assigned_to(self):
+    #     super().clean()
+    #     assigned_to = self.cleaned_data.get('assigned_to')
+    #     project = self.cleaned_data.get('project')
+    #     print(project)
+    #     try:
+    #         User.objects.get(username=assigned_to)
+    #         return assigned_to
+    #     except User.DoesNotExist:
+    #         raise ValidationError('Пользователь не существует!')
 
     class Meta:
         model = Task

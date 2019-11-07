@@ -54,7 +54,7 @@ class TaskView(DetailView):
     model = Task
 
 
-class TaskCreateView(CreateView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     template_name = 'task/create.html'
     form_class = TaskForm
@@ -86,12 +86,9 @@ class TaskCreateView(CreateView):
         return kwargs
 
     def form_valid(self, form):
-        assigned_to = self.request.POST.get('assigned_to')
-        user = User.objects.get(username=assigned_to)
         project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
-        self.object.assigned_to = user
         self.object.project = project
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
@@ -126,6 +123,7 @@ class TaskCreateView(CreateView):
     #     form.fields['assigned_to'].queryset = user.pk
     #     return super().post(request, *args, **kwargs)
 
+
 class TaskUpdateView(UserPassesTestMixin, UpdateView):
     model = Task
     template_name = 'task/update.html'
@@ -141,6 +139,12 @@ class TaskUpdateView(UserPassesTestMixin, UpdateView):
                 return self.request.user == team.user_key
             return redirect('user_error.html')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
+        kwargs['project'] = project
+        return kwargs
+
     def get_success_url(self):
         return reverse('webapp:task_view', kwargs={'pk': self.object.pk})
 
@@ -149,17 +153,17 @@ class TaskDeleteView(UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'task/delete.html'
     context_object_name = 'task'
-    success_url = reverse_lazy('webapp:index')
+    success_url = reverse_lazy('webapp:projects_view')
     pk_kwargs_url = 'pk'
 
+
     def test_func(self):
-        task = self.get_object()
         pk = self.kwargs.get(self.pk_kwargs_url)
-        project = get_object_or_404(Project, pk=pk)
+        task = get_object_or_404(Task, pk=pk)
+        project = task.project
         for team in project.team.all():
             if self.request.user != team.user_key:
-                return self.request.user == team.user_key or \
-                       task.created_by or self.request.user.is_superuser
+                return self.request.user == team.user_key
             return redirect('user_error.html')
 
     # def dispatch(self, request, *args, **kwargs):
