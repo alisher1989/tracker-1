@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
@@ -52,6 +53,11 @@ class ProjectView(DetailView):
     context_object_name = 'project'
     model = Project
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project_users = User.objects.filter(team__project_key=self.object).distinct()
+        context['project_team'] = project_users
+        return context
 
 class ProjectCreateView(CreateView):
     model = Project
@@ -62,7 +68,6 @@ class ProjectCreateView(CreateView):
         if not request.user.is_authenticated:
             return redirect('accounts:login')
         return super().dispatch(request, *args, **kwargs)
-
 
     def get_success_url(self):
         return reverse('webapp:project_view', kwargs={'pk': self.object.pk})

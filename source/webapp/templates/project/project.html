@@ -14,11 +14,12 @@
     <p><b>Created at: </b>{{ project.created_at|date:'d.m.Y H:i:s' }}</p>
      <p><b>Updated at: </b> {{ project.updated_at|date:'d.m.Y H:i:s' }}</p>
     <p>Projects users: </p>
-    {% for user in project.team.all %}
+    {% for user in project_team %}
         <h4>{{ user }}</h4>
     {% endfor %}
     <hr/>
     <h3>Projects tasks</h3>
+    <a href="{% url 'webapp:task_add' project.pk %}"><i class="fas fa-plus-square"></i></a>
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
@@ -30,7 +31,6 @@
                 <div class="pre">{{ task.description }}</div>
                 <a href="{% url 'webapp:task_update' task.pk %}"><i class="fas fa-edit"></i></a>
                 <a href="{% url 'webapp:task_delete' task.pk %}"><i class="fas fa-trash"></i></a>
-                <a href="{% url 'webapp:task_add' %}"><i class="fas fa-plus-square"></i></a>
             </div>
             <hr>
         {% empty %}

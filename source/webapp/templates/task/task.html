@@ -3,7 +3,6 @@
 {% block menu %}
     <li><a href="{% url 'webapp:task_update' task.pk %}">Edit</a></li>
     <li><a href="{% url 'webapp:task_delete' task.pk %}">Delete</a></li>
-    <li><a href="{% url 'webapp:task_add' %}">Add Task</a></li>
 {% endblock %}
 {% block content %}
     <h1>{{ task.summary }}</h1>

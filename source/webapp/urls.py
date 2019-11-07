@@ -4,9 +4,10 @@ from webapp.views import IndexView, TaskView, TaskCreateView, TaskUpdateView, \
     TypeUpdateView, TypeDeleteView, ProjectsView, ProjectView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
+    path('', ProjectsView.as_view(), name='index'),
+    path('tasks/', IndexView),
     path('task/<int:pk>/', TaskView.as_view(), name='task_view'),
-    path('task/add/', TaskCreateView.as_view(), name='task_add'),
+    path('task/add-project/<int:pk>/', TaskCreateView.as_view(), name='task_add'),
     path('task/<int:pk>/update/', TaskUpdateView.as_view(), name='task_update'),
     path('task/<int:pk>/delete/', TaskDeleteView.as_view(), name='task_delete'),
     path('status/', StatusesView.as_view(), name='statuses_view'),

@@ -1,7 +1,7 @@
 {% load  widget_tweaks %}
 {% csrf_token %}
 
-{% for error in form.not_field_errors %}
+{% for error in form.non_field_errors %}
 <p class="form-error">{{ error }}</p>
 {% endfor %}
 
@@ -36,4 +36,10 @@
     <p class="form-error">{{ errors }}</p>
 {% endfor %}
 
-<p class="text-center"><input type="submit" value="Confirm" class="btn btn-primary"></p>
+<p><label for="{{ form.assigned_to.id_for_label }}">Assigned to *</label></p>
+<p>{{ form.assigned_to|add_class:"form-control" }}</p>
+{% for error in form.assigned_to.errors %}
+    <p class="form-error">{{ errors }}</p>
+{% endfor %}
+
+<p><input type="submit" value="{{ button_text }}"></p>

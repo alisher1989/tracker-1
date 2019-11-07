@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404, render
@@ -59,17 +60,41 @@ class TaskCreateView(CreateView):
     form_class = TaskForm
     pk_kwargs_url = 'pk'
 
+    def get_queryset(self):
+        project = get_object_or_404(Project, name=self.kwargs['pk'])
+        print(project)
+        return Task.objects.filter(project=project)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     print(self.kwargs['pk'])
+    #     context['project'] = self.pk_kwargs_url
+    #     return context
+
+    # def get_form(self, **kwargs):
+    #     if self.request.method == 'GET':
+    #         form = TaskForm(user=self.request.user, instance=Task())
+    #     else:
+    #         form = TaskForm(user=self.request.user, instance=Task(), data=self.request.POST)
+    #     return form
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
+        # users_project = Project.objects.filter(team__user_key=project.pk)
+        kwargs['project'] = project
+        return kwargs
+
     def form_valid(self, form):
+        assigned_to = self.request.POST.get('assigned_to')
+        user = User.objects.get(username=assigned_to)
+        project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
+        self.object.assigned_to = user
+        self.object.project = project
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
-
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class=None)
-        users_project = Project.objects.filter(team__user_key=self.request.user.pk, team__ended_at=None)
-        form.fields['project'].queryset = users_project
-        return form
 
     def test_func(self):
         pk = self.kwargs.get(self.pk_kwargs_url)
@@ -82,6 +107,24 @@ class TaskCreateView(CreateView):
     def get_success_url(self):
         return reverse('webapp:task_view', kwargs={'pk': self.object.pk})
 
+    # def get_form(self, form_class=None):
+    #     form = super().get_form(form_class=None)
+    #     users_project = Project.objects.filter(team__user_key=self.request.user.pk, team__ended_at=None)
+    #     form.fields['project'].queryset = users_project
+    #     return form
+
+#     def form_valid(self, form):
+#         project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
+#         task = project..create(**form.cleaned_data)
+#         return redirect('webapp:project_view', pk=task.project.pk)
+
+    # def post(self, request, *args, **kwargs):
+    #     form = self.form_class()
+    #     assigned_to = self.request.POST.get('assigned_to')
+    #     user = User.objects.get(username=assigned_to)
+    #     print(user.pk)
+    #     form.fields['assigned_to'].queryset = user.pk
+    #     return super().post(request, *args, **kwargs)
 
 class TaskUpdateView(UserPassesTestMixin, UpdateView):
     model = Task

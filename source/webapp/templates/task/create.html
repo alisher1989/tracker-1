@@ -5,7 +5,8 @@
 {% endblock %}
 {% block content %}
     <h1>Create Task</h1>
-    <form method="POST" action="{% url 'webapp:task_add' %}">
-        {% include 'partial/task_form.html' with button_text="Create" %}
+    <form method="POST" action="">
+        <input type="hidden" name="project_pk" value="{{ project_pk }}">
+        {% include 'partial/form.html' with button_text="Create" %}
     </form>
 {% endblock %}
