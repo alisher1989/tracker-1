@@ -98,17 +98,39 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProjectForm
     context_object_name = 'project'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        initial['team'] = User.objects.filter(team__project_key=self.project, team__ended_at=None)
+        return initial
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['project_users'] = User.objects.all()
         return kwargs
 
     def form_valid(self, form):
-        users = form.cleaned_data.pop('project_users')
-        users_list = list(users)
-        self.object = form.save()
-        for user in users_list:
-            Team.objects.create(user_key=user, project_key=self.object, started_at=datetime.now())
+        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        cleaned_users = form.cleaned_data.pop('project_users')
+        users_select = self.request.POST.getlist('project_users')
+        teams = Team.objects.filter(project_key=self.project)
+        user_team = []
+
+        for pk in users_select:
+            user = User.objects.get(pk=pk)
+            user_team.append(user.username)
+
+        for team in teams:
+            if team.user_key.username in user_team:
+                continue
+            else:
+                team.ended_at = datetime.now()
+                team.save()
+
+        for user in cleaned_users:
+            user, _ = Team.objects.get_or_create(user_key=user, project_key=self.project, started_at=datetime.now(),
+                                                 ended_at=None)
+
         return redirect(self.get_success_url())
 
     def get_success_url(self):
@@ -153,24 +175,24 @@ class ProjectUsersUpdateView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
         cleaned_users = form.cleaned_data.pop('team_users')
-        print(cleaned_users)
-        initial_users = form.initial.get('team')
-        print(initial_users)
+        users_select = self.request.POST.getlist('team_users')
+        teams = Team.objects.filter(project_key=self.project)
+        user_team = []
+
+        for pk in users_select:
+            user = User.objects.get(pk=pk)
+            user_team.append(user.username)
+
+        for team in teams:
+            if team.user_key.username in user_team:
+                continue
+            else:
+                team.ended_at = datetime.now()
+                team.save()
+
         for user in cleaned_users:
-            if not user in initial_users:
-                Team.objects.create(user_key=user, project_key=self.project, started_at=datetime.now())
-        users = User.objects.all()
-        for user in initial_users:
-            user.ended_at = datetime.now()
-            for user in users:
-                if user in cleaned_users:
-                    Team.objects.create(user_key=user, project_key=self.project, started_at=datetime.now())
-
-        # for user in cleaned_users:
-        #     Team.objects.create(user_key=user, project_key=self.project, started_at=datetime.now())
-        #     for user in initial_users:
-        #         Team.objects.create(user_key=user, project_key=self.project, ended_at=datetime.now())
-
+            user, _ = Team.objects.get_or_create(user_key=user, project_key=self.project, started_at=datetime.now(),
+                                                     ended_at=None)
 
         return redirect(self.get_success_url())
 

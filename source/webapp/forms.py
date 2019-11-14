@@ -17,7 +17,7 @@ class ProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.all_users = kwargs.pop('project_users')
         super().__init__(*args, **kwargs)
-        self.fields['project_users'] = forms.ModelMultipleChoiceField(queryset=self.all_users)
+        self.fields['project_users'] = forms.ModelMultipleChoiceField(queryset=self.all_users, initial=self.initial.get('team'))
 
     class Meta:
         model = Project
