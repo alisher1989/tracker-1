@@ -14,9 +14,20 @@
     <p><b>Created at: </b>{{ project.created_at|date:'d.m.Y H:i:s' }}</p>
      <p><b>Updated at: </b> {{ project.updated_at|date:'d.m.Y H:i:s' }}</p>
     <p>Projects users: </p>
-    {% for user in project_team %}
-        <h4>{{ user }}</h4>
+    {% for user_in_team in project_team %}
+        <li class="clearfix border-bottom">
+            {{ user_in_team }}
+            {{ user_in_team.pk }}
+            <span class="float-right">
+                <form action="{% url 'webapp:user_delete_from_project'  user_in_team.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </span>
+        </li>
     {% endfor %}
+    <hr>
+    <li><a href="{% url 'webapp:project_users_update' project.pk %}"><b>Change team members</b></a></li>
     <hr/>
     <h3>Projects tasks</h3>
     <a href="{% url 'webapp:task_add' project.pk %}"><i class="fas fa-plus-square"></i></a>

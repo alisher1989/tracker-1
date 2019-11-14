@@ -6,6 +6,6 @@
 {% block content %}
     <h1>Create project</h1>
     <form method="POST" action="{% url 'webapp:project_add' %}">
-        {% include 'partial/project_form.html' with button_text="Create" %}
+        {% include 'partial/form.html' with button_text="Create" %}
     </form>
 {% endblock %}
