@@ -97,9 +97,9 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         pk = self.kwargs.get(self.pk_kwargs_url)
         project = get_object_or_404(Project, pk=pk)
         for team in project.team.all():
-            if self.request.user != team.user_key:
-                return self.request.user == team.user_key
-            return redirect('user_error.html')
+            if self.request.user == team.user_key:
+                return True
+        return False
 
     def get_success_url(self):
         return reverse('webapp:task_view', kwargs={'pk': self.object.pk})
@@ -135,9 +135,9 @@ class TaskUpdateView(UserPassesTestMixin, UpdateView):
         pk = self.kwargs.get(self.pk_kwargs_url)
         project = get_object_or_404(Project, pk=pk)
         for team in project.team.all():
-            if self.request.user != team.user_key:
-                return self.request.user == team.user_key
-            return redirect('user_error.html')
+            if self.request.user == team.user_key:
+                return True
+            return False
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -156,15 +156,14 @@ class TaskDeleteView(UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('webapp:projects_view')
     pk_kwargs_url = 'pk'
 
-
     def test_func(self):
         pk = self.kwargs.get(self.pk_kwargs_url)
         task = get_object_or_404(Task, pk=pk)
         project = task.project
         for team in project.team.all():
-            if self.request.user != team.user_key:
-                return self.request.user == team.user_key
-            return redirect('user_error.html')
+            if self.request.user == team.user_key:
+                return True
+            return False
 
     # def dispatch(self, request, *args, **kwargs):
     #     pk = self.kwargs.get(self.pk_kwargs_url)

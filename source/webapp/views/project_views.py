@@ -1,15 +1,18 @@
+from datetime import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.http import urlencode
 from django.views import View
 
-from webapp.forms import ProjectForm, SimpleSearchForm
+from accounts.models import Team
+from webapp.forms import ProjectForm, SimpleSearchForm, TeamUpdateForm
 from webapp.models import Project
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
 
 
 class ProjectsView(ListView):
@@ -55,11 +58,12 @@ class ProjectView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        project_users = User.objects.filter(team__project_key=self.object).distinct()
+        project_users = Team.objects.filter(project_key=self.object, ended_at=None).distinct()
         context['project_team'] = project_users
         return context
 
-class ProjectCreateView(CreateView):
+
+class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     template_name = 'project/create.html'
     form_class = ProjectForm
@@ -68,6 +72,21 @@ class ProjectCreateView(CreateView):
         if not request.user.is_authenticated:
             return redirect('accounts:login')
         return super().dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['project_users'] = User.objects.all()
+        return kwargs
+
+    def form_valid(self, form):
+        users = form.cleaned_data.pop('project_users')
+        current_user = self.request.user
+        users_list = list(users)
+        users_list.append(current_user)
+        self.object = form.save()
+        for user in users_list:
+            Team.objects.create(user_key=user, project_key=self.object, started_at=datetime.now())
+        return redirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('webapp:project_view', kwargs={'pk': self.object.pk})
@@ -78,6 +97,19 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'project/update.html'
     form_class = ProjectForm
     context_object_name = 'project'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['project_users'] = User.objects.all()
+        return kwargs
+
+    def form_valid(self, form):
+        users = form.cleaned_data.pop('project_users')
+        users_list = list(users)
+        self.object = form.save()
+        for user in users_list:
+            Team.objects.create(user_key=user, project_key=self.object, started_at=datetime.now())
+        return redirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('webapp:project_view', kwargs={'pk': self.object.pk})
@@ -90,6 +122,63 @@ class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     context_object_name = 'project'
     success_url = reverse_lazy('webapp:projects_view')
 
+
+class TeamDeleteView(LoginRequiredMixin, DeleteView):
+    model = Team
+    context_object_name = 'project'
+    pk_kwargs_url = 'pk'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.ended_at = datetime.now()
+        self.object.save()
+        return redirect(reverse('webapp:project_view', kwargs={'pk': self.object.project_key.pk}))
+
+
+class ProjectUsersUpdateView(LoginRequiredMixin, FormView):
+    template_name = 'project/change_project_members.html'
+    form_class = TeamUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = get_object_or_404(Project, pk=self.kwargs['pk'])
+        return context
+
+    def get_initial(self):
+        initial = super().get_initial()
+        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        initial['team'] = User.objects.filter(team__project_key=self.project, team__ended_at=None)
+        return initial
+
+    def form_valid(self, form):
+        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        cleaned_users = form.cleaned_data.pop('team_users')
+        print(cleaned_users)
+        initial_users = form.initial.get('team')
+        print(initial_users)
+        for user in cleaned_users:
+            if not user in initial_users:
+                Team.objects.create(user_key=user, project_key=self.project, started_at=datetime.now())
+        users = User.objects.all()
+        for user in initial_users:
+            user.ended_at = datetime.now()
+            for user in users:
+                if user in cleaned_users:
+                    Team.objects.create(user_key=user, project_key=self.project, started_at=datetime.now())
+
+        # for user in cleaned_users:
+        #     Team.objects.create(user_key=user, project_key=self.project, started_at=datetime.now())
+        #     for user in initial_users:
+        #         Team.objects.create(user_key=user, project_key=self.project, ended_at=datetime.now())
+
+
+        return redirect(self.get_success_url())
+
+
+
+
+    def get_success_url(self):
+        return reverse('webapp:project_view', kwargs={'pk': self.project.pk})
 
     # def dispatch(self, request, *args, **kwargs):
     #     return super().dispatch(request, *args, **kwargs)
