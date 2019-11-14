@@ -30,7 +30,9 @@
         </li>
     {% endfor %}
     <hr>
+    {% if perms.webapp.change_team %}
     <li><a href="{% url 'webapp:project_users_update' project.pk %}"><b>Change team members</b></a></li>
+    {% endif %}
     <hr/>
     <h3>Projects tasks</h3>
     <a href="{% url 'webapp:task_add' project.pk %}"><i class="fas fa-plus-square"></i></a>

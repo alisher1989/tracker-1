@@ -147,6 +147,7 @@ class ProjectDeleteView(PermissionRequiredMixin, DeleteView):
     context_object_name = 'project'
     success_url = reverse_lazy('webapp:projects_view')
     permission_required = 'webapp.delete_project'
+    permission_denied_message = '403 Denied  permission'
 
 
 class TeamDeleteView(LoginRequiredMixin, DeleteView):
@@ -161,9 +162,11 @@ class TeamDeleteView(LoginRequiredMixin, DeleteView):
         return redirect(reverse('webapp:project_view', kwargs={'pk': self.object.project_key.pk}))
 
 
-class ProjectUsersUpdateView(LoginRequiredMixin, FormView):
+class ProjectUsersUpdateView(PermissionRequiredMixin, FormView):
     template_name = 'project/change_project_members.html'
     form_class = TeamUpdateForm
+    permission_required = 'webapp.change_team'
+    permission_denied_message = '403 Permission denied'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
