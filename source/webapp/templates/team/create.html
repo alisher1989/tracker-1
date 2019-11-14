@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Create project{% endblock %}
+{% block menu %}
+    <li><a href="{% url 'webapp:teams_view' %}">Teams</a></li>
+{% endblock %}
+{% block content %}
+    <h1>Create team</h1>
+    <form method="POST" action="{% url 'webapp:team_add' %}">
+        {% include 'partial/form.html' with button_text="Create" %}
+    </form>
+{% endblock %}

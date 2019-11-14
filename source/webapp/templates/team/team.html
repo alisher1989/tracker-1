@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Team{% endblock %}
+{% block menu %}
+    <li><a href="{% url 'webapp:team_update' team.pk %}">Edit</a></li>
+    <li><a href="{% url 'webapp:team_delete' team.pk %}">Delete</a></li>
+{% endblock %}
+{% block content %}
+    <h1>{{ team }}</h1>
+        <p><b>Project key: </b>{{ team.project_key }}</p>
+        <p><b>User key: </b>{{ team.user_key }}</p>
+        <p><b>Started at: </b>{{ team.started_at }}</p>
+        <p><b>Ended at: </b>{{ team.ended_at }}</p>
+        <p>
+            <a href="{% url 'webapp:index' %}" class="btn btn-default">Home</a>
+        </p>
+
+{% endblock %}

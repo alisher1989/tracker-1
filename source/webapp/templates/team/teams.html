@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block menu %}
+    <li><a href="{% url 'webapp:team_add' %}">Add team</a></li>
+{% endblock %}
+{% block content %}
+    <h1 class="mt-3">Teams</h1>
+    <div class="row">
+        {% for team in team_list %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{% url 'webapp:team_view' team.pk %}"><h2 class="card-text card-link">
+                            {{ team }}
+                        </h2></a>
+                        <a href="{% url 'webapp:team_add' %}"><i class="fas fa-plus-square"></i></a>
+                        <a href="{% url 'webapp:team_update' team.pk %}"><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'webapp:team_delete' team.pk %}"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

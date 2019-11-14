@@ -1,15 +1,20 @@
+{% load widget_tweaks %}
 {% csrf_token %}
-
 {% for error in form.non_field_errors %}
-    <p class="form-error">{{ error }}</p>
+    <p class="text-danger">{{ error }}</p>
 {% endfor %}
-
 {% for field in form %}
-    <p><label for="{{ field.id_for_label }}">{{ field.label }}</label></p>
-    <p>{{ field }}</p>
-    {% for error in field.errors %}
-        <p class="form-error">{{ error }}</p>
-    {% endfor %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}" class="mr-3">{{ field.label }}</label>
+        {% if field|field_type == 'imagefield' or field|field_type == 'filefield' %}
+            {{ field }}
+        {% else %}
+            {{ field|add_class:"form-control" }}
+        {% endif %}
+        {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
+        {% endfor %}
+    </div>
 {% endfor %}
 
 <p><input type="submit" value="{{ button_text }}"></p>

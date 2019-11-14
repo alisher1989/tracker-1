@@ -1,23 +1,27 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from django.shortcuts import get_object_or_404
-
 from accounts.models import Team
 from webapp.models import Status, Type, Task, Project
 
 from django.contrib.auth.models import User
 
 
+class TeamForm(forms.ModelForm):
+
+    class Meta:
+        model = Team
+        fields = ['project_key', 'user_key', 'started_at', 'ended_at']
+
+
 class ProjectForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.all_users = kwargs.pop('project_users')
+        super().__init__(*args, **kwargs)
+        self.fields['project_users'] = forms.ModelMultipleChoiceField(queryset=self.all_users)
+
     class Meta:
         model = Project
         fields = ['name', 'description', 'project_status']
-
-
-def get_object(self):
-    pk = self.kwargs.get(self.pk_kwargs_url)
-    project = get_object_or_404(Project, pk=pk)
-    return project
 
 
 class TaskForm(forms.ModelForm):
@@ -61,3 +65,10 @@ class TypeForm(forms.ModelForm):
 
 class SimpleSearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False, label='Search')
+
+
+class TeamUpdateForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['team_users'] = forms.ModelMultipleChoiceField(queryset=User.objects.all(),
+                                                                   initial=self.initial.get('team'))
