@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block menu %}
-    <li><a href="{% url 'webapp:project_add' %}">Add project</a></li>
+    {% if perms.webapp.add_project %}
+        <li><a href="{% url 'webapp:project_add' %}">Add project</a></li>
+    {% endif %}
 {% endblock %}
 {% block content %}
     <h1 class="mt-3">Projects</h1>
@@ -18,8 +20,11 @@
                         <a href="{% url 'webapp:project_view' project.pk %}"><h2 class="card-text card-link">
                             {{ project.name }}
                         </h2></a>
+                        {% if perms.webapp.add_project %}
                             <a href="{% url 'webapp:project_update' project.pk %}"><i class="fas fa-edit"></i></a>
+                        {% elif perms.webapp.change_project %}
                             <a href="{% url 'webapp:project_delete' project.pk %}"><i class="fas fa-trash"></i></a>
+                        {% endif %}
                         <p class="card-text">{{ project.get_category_display }}</p>
                         <p class="card-text text-right"><b>Description: </b>{{ project.description }}</p>
                     </div>

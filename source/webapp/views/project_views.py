@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -63,10 +63,12 @@ class ProjectView(DetailView):
         return context
 
 
-class ProjectCreateView(LoginRequiredMixin, CreateView):
+class ProjectCreateView(PermissionRequiredMixin, CreateView):
     model = Project
     template_name = 'project/create.html'
     form_class = ProjectForm
+    permission_required = 'webapp.add_project'
+    permission_denied_message = '403 Доступ запрещен'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -92,11 +94,12 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         return reverse('webapp:project_view', kwargs={'pk': self.object.pk})
 
 
-class ProjectUpdateView(LoginRequiredMixin, UpdateView):
+class ProjectUpdateView(PermissionRequiredMixin, UpdateView):
     model = Project
     template_name = 'project/update.html'
     form_class = ProjectForm
     context_object_name = 'project'
+    permission_required = 'webapp.change_project'
 
     def get_initial(self):
         initial = super().get_initial()
@@ -137,12 +140,13 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
         return reverse('webapp:project_view', kwargs={'pk': self.object.pk})
 
 
-class ProjectDeleteView(LoginRequiredMixin, DeleteView):
+class ProjectDeleteView(PermissionRequiredMixin, DeleteView):
     model = Project
     pk_kwargs_url = 'pk'
     template_name = 'project/delete.html'
     context_object_name = 'project'
     success_url = reverse_lazy('webapp:projects_view')
+    permission_required = 'webapp.delete_project'
 
 
 class TeamDeleteView(LoginRequiredMixin, DeleteView):

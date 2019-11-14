@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -54,11 +54,13 @@ class TaskView(DetailView):
     model = Task
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView):
+class TaskCreateView(PermissionRequiredMixin, CreateView):
     model = Task
     template_name = 'task/create.html'
     form_class = TaskForm
     pk_kwargs_url = 'pk'
+    permission_required = 'webapp.add_task'
+    permission_denied_message = '403 Доступ запрещен'
 
     def get_queryset(self):
         project = get_object_or_404(Project, name=self.kwargs['pk'])
@@ -124,12 +126,14 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     #     return super().post(request, *args, **kwargs)
 
 
-class TaskUpdateView(UserPassesTestMixin, UpdateView):
+class TaskUpdateView(PermissionRequiredMixin, UpdateView):
     model = Task
     template_name = 'task/update.html'
     form_class = TaskForm
     context_object_name = 'task'
     pk_kwargs_url = 'pk'
+    permission_required = 'webapp.change_task'
+    permission_denied_message = '403 Доступ запрещен'
 
     def test_func(self):
         pk = self.kwargs.get(self.pk_kwargs_url)
@@ -149,12 +153,14 @@ class TaskUpdateView(UserPassesTestMixin, UpdateView):
         return reverse('webapp:task_view', kwargs={'pk': self.object.pk})
 
 
-class TaskDeleteView(UserPassesTestMixin, DeleteView):
+class TaskDeleteView(PermissionRequiredMixin, DeleteView):
     model = Task
     template_name = 'task/delete.html'
     context_object_name = 'task'
     success_url = reverse_lazy('webapp:projects_view')
     pk_kwargs_url = 'pk'
+    permission_required = 'webapp.delete_task'
+    permission_denied_message = '403 Доступ запрещен'
 
     def test_func(self):
         pk = self.kwargs.get(self.pk_kwargs_url)

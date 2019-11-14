@@ -2,9 +2,13 @@
 {% block title %}{{ project.name }}{% endblock %}
 
 {% block menu %}
-    <li><a href="{% url 'webapp:project_update' project.pk %}">Edit</a></li>
-    <li><a href="{% url 'webapp:project_delete' project.pk %}">Delete</a></li>
-    <li><a href="{% url 'webapp:project_add' %}">Create</a></li>
+    {% if perms.webapp.change_project %}
+        <li><a href="{% url 'webapp:project_update' project.pk %}">Edit</a></li>
+    {% elif perms.webapp.delete_project %}
+        <li><a href="{% url 'webapp:project_delete' project.pk %}">Delete</a></li>
+    {% elif perms.webapp.add_project%}
+        <li><a href="{% url 'webapp:project_add' %}">Create</a></li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -17,7 +21,6 @@
     {% for user_in_team in project_team %}
         <li class="clearfix border-bottom">
             {{ user_in_team }}
-            {{ user_in_team.pk }}
             <span class="float-right">
                 <form action="{% url 'webapp:user_delete_from_project'  user_in_team.pk %}" method="POST">
                     {% csrf_token %}
