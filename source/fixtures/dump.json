@@ -50,7 +50,29 @@
     "name": "Liverpool",
     "description": "Anfield",
     "created_at": "2019-11-02T22:29:01.875Z",
-    "updated_at": "2019-11-02T22:29:01.875Z",
+    "updated_at": "2019-11-14T12:26:05.878Z",
+    "project_status": "active"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 8,
+  "fields": {
+    "name": "Shefield United",
+    "description": "Attractive team",
+    "created_at": "2019-11-13T14:35:41.562Z",
+    "updated_at": "2019-11-13T16:23:46.238Z",
+    "project_status": "active"
+  }
+},
+{
+  "model": "webapp.project",
+  "pk": 9,
+  "fields": {
+    "name": "Everton",
+    "description": "Liverpool city",
+    "created_at": "2019-11-13T14:47:01.594Z",
+    "updated_at": "2019-11-13T16:33:20.323Z",
     "project_status": "active"
   }
 },
@@ -97,11 +119,113 @@
   }
 },
 {
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "Project Manager",
+    "permissions": [
+      [
+        "add_team",
+        "accounts",
+        "team"
+      ],
+      [
+        "change_team",
+        "accounts",
+        "team"
+      ],
+      [
+        "delete_team",
+        "accounts",
+        "team"
+      ],
+      [
+        "add_project",
+        "webapp",
+        "project"
+      ],
+      [
+        "change_project",
+        "webapp",
+        "project"
+      ],
+      [
+        "delete_project",
+        "webapp",
+        "project"
+      ],
+      [
+        "add_task",
+        "webapp",
+        "task"
+      ],
+      [
+        "change_task",
+        "webapp",
+        "task"
+      ],
+      [
+        "delete_task",
+        "webapp",
+        "task"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 2,
+  "fields": {
+    "name": "Team Lead",
+    "permissions": [
+      [
+        "change_team",
+        "accounts",
+        "team"
+      ],
+      [
+        "add_task",
+        "webapp",
+        "task"
+      ],
+      [
+        "change_task",
+        "webapp",
+        "task"
+      ],
+      [
+        "delete_task",
+        "webapp",
+        "task"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 3,
+  "fields": {
+    "name": "Developer",
+    "permissions": [
+      [
+        "add_task",
+        "webapp",
+        "task"
+      ],
+      [
+        "change_task",
+        "webapp",
+        "task"
+      ]
+    ]
+  }
+},
+{
   "model": "auth.user",
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$70amtSdVAH6h$AVPSEVp7KlH7m1ZTNvDUZ/clLSIJX/WXoEXrES/ptUE=",
-    "last_login": "2019-11-07T13:13:45.721Z",
+    "last_login": "2019-11-13T15:26:13Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "Alisher",
@@ -109,8 +233,12 @@
     "email": "shera.rashiduulu@test.com",
     "is_staff": true,
     "is_active": true,
-    "date_joined": "2019-11-02T17:59:36.425Z",
-    "groups": [],
+    "date_joined": "2019-11-02T17:59:36Z",
+    "groups": [
+      [
+        "Project Manager"
+      ]
+    ],
     "user_permissions": []
   }
 },
@@ -119,7 +247,7 @@
   "pk": 2,
   "fields": {
     "password": "pbkdf2_sha256$150000$A5VYghA7zJOZ$3jb66MFSRJ7Ji3D3yuLB8CqA5F3qQXtywo89eXG2aUY=",
-    "last_login": "2019-11-07T13:04:19.672Z",
+    "last_login": "2019-11-13T14:37:52Z",
     "is_superuser": false,
     "username": "test",
     "first_name": "Thierry",
@@ -127,8 +255,12 @@
     "email": "testhenry@test.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-11-02T22:36:26.753Z",
-    "groups": [],
+    "date_joined": "2019-11-02T22:36:26Z",
+    "groups": [
+      [
+        "Project Manager"
+      ]
+    ],
     "user_permissions": []
   }
 },
@@ -137,7 +269,7 @@
   "pk": 3,
   "fields": {
     "password": "pbkdf2_sha256$150000$Yc5NV0MG0wH5$mAvbP+MML/GHHTMnGYTpAruGk42otxWrgpsqwSPuJW8=",
-    "last_login": "2019-11-04T12:59:48.942Z",
+    "last_login": "2019-11-04T12:59:48Z",
     "is_superuser": false,
     "username": "test2",
     "first_name": "Sadio",
@@ -145,8 +277,12 @@
     "email": "mane@test.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-11-02T22:38:11.134Z",
-    "groups": [],
+    "date_joined": "2019-11-02T22:38:11Z",
+    "groups": [
+      [
+        "Team Lead"
+      ]
+    ],
     "user_permissions": []
   }
 },
@@ -155,7 +291,7 @@
   "pk": 4,
   "fields": {
     "password": "pbkdf2_sha256$150000$MQ7yu4eiWq03$pa8wD14clWPzlJHWUBEB6+5Ug1k5BcuhdmHCFsfSHyU=",
-    "last_login": "2019-11-07T13:14:38.904Z",
+    "last_login": "2019-11-07T13:14:38Z",
     "is_superuser": false,
     "username": "test3",
     "first_name": "Bob",
@@ -163,8 +299,12 @@
     "email": "bob@test.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-11-02T22:39:05.791Z",
-    "groups": [],
+    "date_joined": "2019-11-02T22:39:05Z",
+    "groups": [
+      [
+        "Team Lead"
+      ]
+    ],
     "user_permissions": []
   }
 },
@@ -173,7 +313,7 @@
   "pk": 5,
   "fields": {
     "password": "pbkdf2_sha256$150000$MpzRxhyUDiEB$UZTGKsVhljkCQXCEybUJY6OyEnQoVE8+KFZ3hNSuBSU=",
-    "last_login": "2019-11-04T13:01:46.962Z",
+    "last_login": "2019-11-04T13:01:46Z",
     "is_superuser": false,
     "username": "test4",
     "first_name": "Marina",
@@ -181,8 +321,12 @@
     "email": "marina@test.com",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2019-11-02T22:40:08.684Z",
-    "groups": [],
+    "date_joined": "2019-11-02T22:40:08Z",
+    "groups": [
+      [
+        "Developer"
+      ]
+    ],
     "user_permissions": []
   }
 },
@@ -199,8 +343,12 @@
     "email": "james@test.com",
     "is_staff": false,
     "is_active": false,
-    "date_joined": "2019-11-02T22:41:19.796Z",
-    "groups": [],
+    "date_joined": "2019-11-02T22:41:19Z",
+    "groups": [
+      [
+        "Developer"
+      ]
+    ],
     "user_permissions": []
   }
 },
@@ -386,6 +534,25 @@
     "updated_at": "2019-11-07T13:28:32.079Z",
     "created_by": [
       "test3"
+    ],
+    "assigned_to": [
+      "test"
+    ]
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 47,
+  "fields": {
+    "summary": "Jose Mourinho",
+    "description": "One of the best managers",
+    "status": 2,
+    "type": 1,
+    "project": 2,
+    "created_at": "2019-11-07T13:39:04.610Z",
+    "updated_at": "2019-11-07T13:39:04.610Z",
+    "created_by": [
+      "admin"
     ],
     "assigned_to": [
       "test"
