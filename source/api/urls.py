@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
-from api.views import ProjectViewSet, TaskViewSet
+from api.views import ProjectViewSet, TaskViewSet, LogoutView
 
 router = routers.DefaultRouter()
 router.register(r'projects', ProjectViewSet)
