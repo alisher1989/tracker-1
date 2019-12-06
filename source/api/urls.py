@@ -15,6 +15,6 @@ app_name = 'api'
 urlpatterns = [
     path('', include(router.urls)),
     path('login/', obtain_auth_token, name='obtain_token_auth'),
-
+    path('logout/', LogoutView.as_view(), name='delete_auth-token'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
