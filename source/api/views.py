@@ -1,6 +1,5 @@
-from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny, DjangoModelPermissionsOrAnonReadOnly, DjangoModelPermissions
+from rest_framework.permissions import AllowAny, DjangoModelPermissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -25,6 +24,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes = [DjangoModelPermissions]
     serializer_class = TaskSerializer
     queryset = Task.objects.all()

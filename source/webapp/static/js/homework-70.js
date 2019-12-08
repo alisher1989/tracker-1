@@ -1,7 +1,23 @@
+// 0---- get token for admin
+
+$.ajax({
+    url: 'http://localhost:8000/api/login/',
+    method: 'post',
+    data: JSON.stringify({username: 'admin', password: 'admin'}),
+    dataType: 'json',
+    contentType: 'application/json',
+    success: function(response, status){console.log(response);},
+    error: function(response, status){console.log(response);}
+});
+
+// {token: "781436916ba967e8f849a3c1265b854808222721"} ==> my token for admin
+
+
 // 1-----view all projects
 $.ajax({
     url: 'http://localhost:8000/api/projects/',
     method: 'get',
+    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
     dataType: 'json',
     success: function(response, status){console.log(response);},
     error: function(response, status){console.log(response);}
@@ -12,6 +28,7 @@ $.ajax({
 $.ajax({
     url: 'http://localhost:8000/api/tasks/',
     method: 'get',
+    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
     dataType: 'json',
     success: function(response, status){console.log(response);},
     error: function(response, status){console.log(response);}
@@ -21,6 +38,7 @@ $.ajax({
 $.ajax({
     url: 'http://localhost:8000/api/projects/2/',
     method: 'get',
+    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
     dataType: 'json',
     success: function(response, status){console.log(response.project_tasks);},
     error: function(response, status){console.log(response);}
@@ -42,6 +60,7 @@ let data = JSON.stringify({
 $.ajax({
     url: 'http://localhost:8000/api/tasks/',
     method: 'post',
+    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
     data: data,
     dataType: 'json',
     contentType: 'application/json',
@@ -54,6 +73,7 @@ $.ajax({
 $.ajax({
     url: 'http://localhost:8000/api/tasks/48/',
     method: 'delete',
+    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
     dataType: 'json',
     contentType: 'application/json',
     success: function(response, status){console.log(response);},
