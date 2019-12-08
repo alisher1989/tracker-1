@@ -10,6 +10,8 @@ $.ajax({
     error: function(response, status){console.log(response);}
 });
 
+localStorage.setItem('api_token', "781436916ba967e8f849a3c1265b854808222721");
+api_token = localStorage.getItem('api_token');
 // {token: "781436916ba967e8f849a3c1265b854808222721"} ==> my token for admin
 
 
@@ -17,7 +19,7 @@ $.ajax({
 $.ajax({
     url: 'http://localhost:8000/api/projects/',
     method: 'get',
-    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
+    headers: {'Authorization': 'Token ' + api_token},
     dataType: 'json',
     success: function(response, status){console.log(response);},
     error: function(response, status){console.log(response);}
@@ -28,7 +30,7 @@ $.ajax({
 $.ajax({
     url: 'http://localhost:8000/api/tasks/',
     method: 'get',
-    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
+    headers: {'Authorization': 'Token ' + api_token},
     dataType: 'json',
     success: function(response, status){console.log(response);},
     error: function(response, status){console.log(response);}
@@ -38,7 +40,7 @@ $.ajax({
 $.ajax({
     url: 'http://localhost:8000/api/projects/2/',
     method: 'get',
-    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
+    headers: {'Authorization': 'Token ' + api_token},
     dataType: 'json',
     success: function(response, status){console.log(response.project_tasks);},
     error: function(response, status){console.log(response);}
@@ -60,7 +62,7 @@ let data = JSON.stringify({
 $.ajax({
     url: 'http://localhost:8000/api/tasks/',
     method: 'post',
-    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
+    headers: {'Authorization': 'Token ' + api_token},
     data: data,
     dataType: 'json',
     contentType: 'application/json',
@@ -73,7 +75,7 @@ $.ajax({
 $.ajax({
     url: 'http://localhost:8000/api/tasks/48/',
     method: 'delete',
-    headers: {'Authorization': 'Token ' + "781436916ba967e8f849a3c1265b854808222721"},
+    headers: {'Authorization': 'Token ' + api_token},
     dataType: 'json',
     contentType: 'application/json',
     success: function(response, status){console.log(response);},
